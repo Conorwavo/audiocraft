@@ -14,11 +14,49 @@ The design favors **machine-readable views** (JSON, JSON-LD, agent-specific slic
 python demos/artist_profile_mvp.py
 ```
 
+Example: request only the marketing slice as JSON (handy for a quick agent check):
+
+```bash
+python demos/artist_profile_mvp.py --agent marketing --format json
+```
+
 You will see:
 
 - A **Markdown profile** suited for dashboards or emails.
 - A **JSON-LD block** ready for knowledge graphs or search indexing.
 - **Agent views** tuned for production, marketing, splits, contracting, and distribution agents.
+
+### Sample output (truncated)
+
+**Markdown view**
+
+```markdown
+# 🎨 Lumen Echo
+
+## Identity & Story
+- Legal: **Avery Calder**
+- Genres: electronic, indie pop
+- Hometown: Berlin, DE
+- Bio: Cinematic electronic producer blending modular textures with pop sensibilities.
+```
+
+**Marketing agent view (JSON)**
+
+```json
+{
+  "stage_name": "Lumen Echo",
+  "bio": "Cinematic electronic producer blending modular textures with pop sensibilities.",
+  "audience": [
+    "festival goers",
+    "sci-fi film fans"
+  ],
+  "social_links": {
+    "instagram": "https://instagram.com/lumen.echo",
+    "spotify": "https://open.spotify.com/artist/lumenecho",
+    "youtube": "https://youtube.com/@lumenecho"
+  }
+}
+```
 
 ## Data model highlights
 

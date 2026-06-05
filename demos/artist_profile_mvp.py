@@ -8,6 +8,9 @@ markdown view and machine-readable JSON/JSON-LD structures.
 
 Run the script directly to see example output:
     python demos/artist_profile_mvp.py
+
+You can also request a single agent slice:
+    python demos/artist_profile_mvp.py --agent marketing --format json
 """
 from __future__ import annotations
 
@@ -15,6 +18,7 @@ from dataclasses import dataclass, field, asdict
 from datetime import date
 from typing import Dict, List
 import json
+import argparse
 
 
 @dataclass
@@ -293,7 +297,33 @@ def demo_profile() -> ArtistProfile:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Artist profile MVP demo")
+    parser.add_argument(
+        "--agent",
+        choices=["production", "marketing", "splits", "contracting", "distribution"],
+        help="Return only the chosen agent view",
+    )
+    parser.add_argument(
+        "--format",
+        choices=["json", "markdown"],
+        default="markdown",
+        help="Output format when selecting a single agent view",
+    )
+    args = parser.parse_args()
+
     profile = demo_profile()
+
+    if args.agent:
+        view = profile.agent_view(args.agent)
+        if args.format == "markdown":
+            print(profile.to_markdown())
+            print("\n===== AGENT VIEW =====\n")
+            print(f"-- {args.agent.upper()} --")
+            print(json.dumps(view, indent=2))
+        else:
+            print(json.dumps(view, indent=2))
+        return
+
     print("\n===== HUMAN VIEW (Markdown) =====\n")
     print(profile.to_markdown())
 
