@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Artist Profile MVP — Continuous Intelligence</title>
+    <meta
+      name="description"
+      content="A universal artist profile MVP that exposes public, user-intent, and private integration data for production, marketing, splits, contracting, and distribution agents."
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #090a13;
+        --panel: rgba(255, 255, 255, 0.08);
+        --panel-strong: rgba(255, 255, 255, 0.14);
+        --text: #f8fbff;
+        --muted: #b9c3d6;
+        --cyan: #66e3ff;
+        --pink: #ff73d2;
+        --violet: #a78bfa;
+        --green: #7ef7c4;
+        --line: rgba(255, 255, 255, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 10% 10%, rgba(102, 227, 255, 0.24), transparent 32rem),
+          radial-gradient(circle at 90% 0%, rgba(255, 115, 210, 0.2), transparent 30rem),
+          linear-gradient(135deg, #090a13 0%, #111827 52%, #160b2f 100%);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+        gap: 28px;
+        align-items: stretch;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: var(--panel);
+        box-shadow: 0 24px 100px rgba(0, 0, 0, 0.32);
+        backdrop-filter: blur(22px);
+      }
+
+      .intro {
+        padding: 38px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .intro::after {
+        content: "";
+        position: absolute;
+        inset: auto -12% -38% 45%;
+        height: 300px;
+        background: radial-gradient(circle, rgba(126, 247, 196, 0.22), transparent 68%);
+        pointer-events: none;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        margin: 0 0 18px;
+        padding: 8px 12px;
+        border: 1px solid rgba(102, 227, 255, 0.32);
+        border-radius: 999px;
+        color: var(--cyan);
+        background: rgba(102, 227, 255, 0.08);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.7rem, 7vw, 6.3rem);
+        line-height: 0.9;
+        letter-spacing: -0.08em;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, var(--cyan), var(--pink), var(--green));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 24px 0 0;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        line-height: 1.65;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .chip {
+        padding: 10px 13px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        color: #e9f2ff;
+        font-size: 0.9rem;
+      }
+
+      .identity {
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 104px;
+        height: 104px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, var(--cyan), var(--pink));
+        color: #080914;
+        font-size: 3.8rem;
+        box-shadow: 0 20px 70px rgba(255, 115, 210, 0.34);
+      }
+
+      .identity h2 {
+        margin: 24px 0 6px;
+        font-size: 2rem;
+      }
+
+      .identity p {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .metric {
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.45rem;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .section-title {
+        margin: 48px 0 18px;
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        letter-spacing: -0.04em;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .slice {
+        padding: 22px;
+      }
+
+      .slice h3 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+
+      .slice p,
+      .slice li {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .slice ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .wide {
+        grid-column: span 2;
+      }
+
+      pre {
+        margin: 0;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        color: #d7f7ff;
+        font-size: 0.88rem;
+        line-height: 1.55;
+      }
+
+      .code-card {
+        padding: 24px;
+        background: rgba(0, 0, 0, 0.28);
+      }
+
+      .footer {
+        margin-top: 34px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .wide {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <article class="card intro">
+          <p class="eyebrow">Continuous intelligence artist schema</p>
+          <h1>Universal artist profile for <span class="gradient-text">agentic music ops</span>.</h1>
+          <p class="lead">
+            A Vercel-ready preview of the artist profile MVP: one canonical profile combines public presence,
+            artist intent, and private integrations so specialized agents can safely work from the same source of truth.
+          </p>
+          <div class="chips" aria-label="Agent coverage">
+            <span class="chip">Production coaching</span>
+            <span class="chip">Marketing</span>
+            <span class="chip">Splits</span>
+            <span class="chip">Contracting</span>
+            <span class="chip">Distribution</span>
+          </div>
+        </article>
+
+        <aside class="card identity" aria-label="Artist profile summary">
+          <div>
+            <div class="avatar" aria-hidden="true">🎨</div>
+            <h2>Lumen Echo</h2>
+            <p>Cinematic electronic producer blending modular textures with pop sensibilities.</p>
+            <div class="chips">
+              <span class="chip">electronic</span>
+              <span class="chip">indie pop</span>
+              <span class="chip">Berlin, DE</span>
+            </div>
+          </div>
+          <div class="metrics">
+            <div class="metric"><strong>125K</strong><span>Spotify monthly listeners</span></div>
+            <div class="metric"><strong>210K</strong><span>YouTube 30d views</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <h2 class="section-title">Semantic views for the value chain</h2>
+      <section class="grid" aria-label="Agent views">
+        <article class="card slice">
+          <h3>🎛️ Production</h3>
+          <ul>
+            <li>Ableton + Logic project context</li>
+            <li>Tempo, key, and stems readiness</li>
+            <li>Creative goals for coaching loops</li>
+          </ul>
+        </article>
+        <article class="card slice">
+          <h3>📣 Marketing</h3>
+          <ul>
+            <li>Audience, voice, social links</li>
+            <li>Streaming metrics and milestones</li>
+            <li>Campaign-ready artist narrative</li>
+          </ul>
+        </article>
+        <article class="card slice">
+          <h3>⚖️ Rights + Contracting</h3>
+          <ul>
+            <li>Contributor roles and percentages</li>
+            <li>Management and legal contacts</li>
+            <li>Master, publishing, and term preferences</li>
+          </ul>
+        </article>
+        <article class="card slice">
+          <h3>🚀 Distribution</h3>
+          <ul>
+            <li>Preferred distributor routing</li>
+            <li>Release catalogue metadata</li>
+            <li>Performance signals for prioritization</li>
+          </ul>
+        </article>
+        <article class="card slice wide code-card">
+          <h3>Machine-readable slice</h3>
+          <pre>{
+  "stage_name": "Lumen Echo",
+  "agent_view": "marketing",
+  "audience": ["festival goers", "sci-fi film fans"],
+  "milestones": ["Lock EP tracklist", "Book spring tour", "Secure sync placements"],
+  "same_source_of_truth": true
+}</pre>
+        </article>
+      </section>
+
+      <p class="footer">
+        Deploy this static page to Vercel from the repo root. The CLI schema demo remains in
+        <code>demos/artist_profile_mvp.py</code>.
+      </p>
+    </main>
+  </body>
+</html>

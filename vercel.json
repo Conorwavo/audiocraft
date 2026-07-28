@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm run build:artist-profile",
+  "outputDirectory": "dist",
+  "framework": null
+}

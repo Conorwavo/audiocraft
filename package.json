@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build:artist-profile": "mkdir -p dist && cp -R public/* dist/"
+  },
+  "devDependencies": {}
+}
