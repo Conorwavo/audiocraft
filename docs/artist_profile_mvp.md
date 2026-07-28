@@ -1,0 +1,132 @@
+# Artist Profile MVP (Continuous Intelligence)
+
+This MVP demonstrates how a universal artist profile can power multiple agents across the music value chain. It combines:
+
+- **Public signals**: biography, links, streaming metrics, notable releases.
+- **User intent**: goals, voice, target audience, milestones, collaboration preferences.
+- **Private integrations**: DAW sessions, splits, contracts, management/distribution preferences.
+
+The design favors **machine-readable views** (JSON, JSON-LD, agent-specific slices) while keeping a **human-friendly, visually rich** presentation for artists and teams.
+
+## How to preview it quickly
+
+### 1) Terminal preview
+
+Run the demo and print the full human + machine output:
+
+```bash
+python demos/artist_profile_mvp.py
+```
+
+Preview only one agent slice (faster when iterating):
+
+```bash
+python demos/artist_profile_mvp.py --agent marketing --format json
+```
+
+### 2) Save a Markdown preview file
+
+If you want to open the profile in an editor preview pane (VS Code, Cursor, etc.):
+
+```bash
+python demos/artist_profile_mvp.py > /tmp/artist_profile_preview.md
+```
+
+Then open `/tmp/artist_profile_preview.md` and use your editor's Markdown preview.
+
+### 3) Open it in Vercel
+
+This repo now includes a static Vercel preview page for the MVP at `public/index.html`. To deploy it:
+
+1. Push this branch to GitHub.
+2. In Vercel, choose **Add New → Project** and import this repository.
+3. Keep the project root as the repository root.
+4. Use the detected build settings from `vercel.json`:
+   - Build command: `npm run build:artist-profile`
+   - Output directory: `dist`
+5. Click **Deploy**, then open the generated Vercel URL.
+
+For local smoke testing before deploying, run:
+
+```bash
+npm run build:artist-profile
+python -m http.server 8000 --directory dist
+```
+
+Then open `http://localhost:8000`.
+
+## Running the demo
+
+```bash
+python demos/artist_profile_mvp.py
+```
+
+Example: request only the marketing slice as JSON (handy for a quick agent check):
+
+```bash
+python demos/artist_profile_mvp.py --agent marketing --format json
+```
+
+You will see:
+
+- A **Markdown profile** suited for dashboards or emails.
+- A **JSON-LD block** ready for knowledge graphs or search indexing.
+- **Agent views** tuned for production, marketing, splits, contracting, and distribution agents.
+
+### Sample output (truncated)
+
+**Markdown view**
+
+```markdown
+# 🎨 Lumen Echo
+
+## Identity & Story
+- Legal: **Avery Calder**
+- Genres: electronic, indie pop
+- Hometown: Berlin, DE
+- Bio: Cinematic electronic producer blending modular textures with pop sensibilities.
+```
+
+**Marketing agent view (JSON)**
+
+```json
+{
+  "stage_name": "Lumen Echo",
+  "bio": "Cinematic electronic producer blending modular textures with pop sensibilities.",
+  "audience": [
+    "festival goers",
+    "sci-fi film fans"
+  ],
+  "social_links": {
+    "instagram": "https://instagram.com/lumen.echo",
+    "spotify": "https://open.spotify.com/artist/lumenecho",
+    "youtube": "https://youtube.com/@lumenecho"
+  }
+}
+```
+
+## Data model highlights
+
+- `PublicPresence`: surface-level identity and stats.
+- `UserIntent`: human-supplied creative and business goals.
+- `PrivateIntegrations`: DAW/project hooks, splits, and deal preferences.
+- `ArtistProfile`: merges everything and can generate specialized views via `agent_view()`.
+
+### Agent slices
+
+- **Production**: genre focus, creative goals, DAW sessions (tempo, key, stems availability).
+- **Marketing**: bio, audience, social links, streaming KPIs, milestones.
+- **Splits**: contribution breakdown and management contacts.
+- **Contracting**: legal/stage names plus preferred contract terms.
+- **Distribution**: preferred distributors, catalogue, performance metrics.
+
+## Extending the MVP
+
+- Swap `demo_profile()` with your own data fetchers (public APIs, user forms, DAW bridges).
+- Persist the JSON-LD to a graph store; attach embedding vectors for semantic search.
+- Connect agent views to specialized tools (e.g., marketing copy generators, royalty calculators).
+- Render the Markdown output in a UI; style it with your design system to maintain visual quality.
+
+## Why continuous intelligence?
+
+A single canonical profile feeds every agent with consistent facts, while each agent receives a **minimal, relevant slice**. This prevents drift between production, marketing, rights, and distribution workflows, and keeps human input central to the loop.
